@@ -5,7 +5,7 @@ import './App.css';
 import { getRandomInt } from './helpers';
 import { QuoteType } from './types';
 
-const App = (): JSX.Element | null => {
+const App = (): JSX.Element => {
   const [quotes, setQuotes] = useState<QuoteType[]>([]);
 
   useEffect(() => {
@@ -16,15 +16,17 @@ const App = (): JSX.Element | null => {
     })
     .catch(error => console.log(error));
   }, []);
+
+  const randomIndex = getRandomInt(quotes?.length) ?? 0;
   
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" style={{ backgroundImage: `url(${quotes[randomIndex]?.image})` }}>
         {
           quotes.length > 0 ?
-            <p>
-              {quotes[getRandomInt(quotes.length)].title}
-            </p> 
+            <h1>
+              { quotes[randomIndex].title }
+            </h1> 
           : null
         }
       </header>
