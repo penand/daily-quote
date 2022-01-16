@@ -2,14 +2,16 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import './App.css';
+import { getRandomInt } from './helpers';
 import { QuoteType } from './types';
 
-const App = () => {
+const App = (): JSX.Element | null => {
   const [quotes, setQuotes] = useState<QuoteType[]>([]);
 
   useEffect(() => {
     axios.get('https://daily-quote-api.herokuapp.com/quotes')
-    .then(response => {console.log(response.data)
+    .then(response => {
+      console.log(response.data[0])
       setQuotes(response.data)
     })
     .catch(error => console.log(error));
@@ -19,11 +21,11 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         {
-          quotes.map((quote) => (
-            <p key={quote.author}>
-              {quote.author}
-            </p>
-          ))
+          quotes.length > 0 ?
+            <p>
+              {quotes[getRandomInt(quotes.length)].title}
+            </p> 
+          : null
         }
       </header>
     </div>
